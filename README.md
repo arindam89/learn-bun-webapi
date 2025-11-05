@@ -59,10 +59,33 @@ bun_learn/
 │   ├── 03-websocket.ts        - Real-time chat
 │   └── README.md
 │
-└── 06-production/          # Production-Ready Code
-    ├── 01-logging.ts          - Structured logging
-    ├── 02-documentation.ts    - OpenAPI/Swagger
-    ├── 03-health-metrics.ts   - Health checks, metrics
+├── 06-production/          # Production-Ready Code
+│   ├── 01-logging.ts          - Structured logging
+│   ├── 02-documentation.ts    - OpenAPI/Swagger
+│   ├── 03-health-metrics.ts   - Health checks, metrics
+│   └── README.md
+│
+├── 07-hono-framework/      # Hono Web Framework  **NEW!**
+│   ├── 01-hono-basics.ts      - Hono fundamentals
+│   ├── 02-hono-middleware.ts  - Built-in & custom middleware
+│   ├── 03-hono-routing.ts     - Advanced routing patterns
+│   ├── 04-hono-validation.ts  - Type-safe validation with Zod
+│   ├── 05-hono-vs-vanilla.ts  - Comparison with vanilla Bun
+│   └── README.md
+│
+├── 08-concurrency-reliability/ # Concurrency & Reliability  **NEW!**
+│   ├── 01-concurrency-control.ts - Race conditions, locks, mutexes
+│   ├── 02-idempotency.ts      - Idempotent APIs, duplicate prevention
+│   ├── 03-double-voting.ts    - Prevent duplicate votes/actions
+│   ├── 04-rate-limit-cache.ts - Rate limiting & caching strategies
+│   ├── 05-circuit-breaker.ts  - Circuit breaker pattern
+│   └── README.md
+│
+└── 09-security/            # Security Best Practices  **NEW!**
+    ├── 01-injection-prevention.ts - SQL injection, XSS, command injection
+    ├── 02-password-security.ts - Password hashing, authentication
+    ├── 03-csrf-cors-headers.ts - CSRF, CORS, security headers
+    ├── 04-ddos-protection.ts  - DDoS mitigation, advanced rate limiting
     └── README.md
 ```
 
@@ -79,6 +102,10 @@ bun_learn/
    ```bash
    bun install
    ```
+   
+   This will install:
+   - **Hono** - Fast, lightweight web framework (Module 7)
+   - **Zod** - TypeScript-first schema validation (Module 7)
 
 ### Your First API
 
@@ -161,6 +188,41 @@ Make it production-ready:
 
 **Time:** 3-4 hours  
 **Goal:** Deploy-ready applications
+
+### Stage 7: Hono Framework (Day 9-10) **NEW!**
+Master the Hono web framework:
+
+1. **07-hono-framework/01-hono-basics.ts** - Hono fundamentals
+2. **07-hono-framework/02-hono-middleware.ts** - Middleware patterns
+3. **07-hono-framework/03-hono-routing.ts** - Advanced routing
+4. **07-hono-framework/04-hono-validation.ts** - Type-safe validation
+5. **07-hono-framework/05-hono-vs-vanilla.ts** - Framework comparison
+
+**Time:** 4-5 hours  
+**Goal:** Build cleaner APIs with less boilerplate
+
+### Stage 8: Concurrency & Reliability (Day 11-12) **NEW!**
+Build reliable, scalable systems:
+
+1. **08-concurrency-reliability/01-concurrency-control.ts** - Race conditions & locks
+2. **08-concurrency-reliability/02-idempotency.ts** - Idempotent operations
+3. **08-concurrency-reliability/03-double-voting.ts** - Duplicate prevention
+4. **08-concurrency-reliability/04-rate-limit-cache.ts** - Performance optimization
+5. **08-concurrency-reliability/05-circuit-breaker.ts** - Fault tolerance
+
+**Time:** 5-6 hours  
+**Goal:** Handle high-concurrency scenarios safely
+
+### Stage 9: Security (Day 13-14) **NEW!**
+Protect your APIs from common attacks:
+
+1. **09-security/01-injection-prevention.ts** - SQL injection, XSS, command injection
+2. **09-security/02-password-security.ts** - Secure password handling
+3. **09-security/03-csrf-cors-headers.ts** - CSRF protection & security headers
+4. **09-security/04-ddos-protection.ts** - DDoS mitigation & rate limiting
+
+**Time:** 5-6 hours  
+**Goal:** Build secure, production-ready APIs
 
 ## 🔧 How to Use This Project
 
