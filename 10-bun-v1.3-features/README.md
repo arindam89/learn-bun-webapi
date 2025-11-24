@@ -173,6 +173,83 @@ const safeHTML = InputValidator.sanitizeHTML(userInput);
 }
 ```
 
+### 06. Enhanced Bun.serve() Routing (`06-enhanced-bun-serve-routing.ts`)
+**Revolutionary routing capabilities built directly into Bun.serve()**
+
+**New in Bun 1.3:**
+- Built-in route matching with parameter extraction
+- HTTP method-specific routing
+- Route parameters and query string parsing
+- Middleware chains for cross-cutting concerns
+- Static file serving
+- Route-based caching
+
+**Key concepts:**
+```typescript
+serve({
+  port: 3000,
+  routes: {
+    '/users/:id': (req, params) => {
+      const userId = params?.id;
+      return Response.json({ id: userId, name: `User ${userId}` });
+    },
+    '/api/data': {
+      GET: () => Response.json({ data: 'GET request' }),
+      POST: async (req) => {
+        const body = await req.json();
+        return Response.json({ received: body });
+      }
+    }
+  }
+});
+```
+
+**Features demonstrated:**
+- Basic routing with parameters (`/users/:id`)
+- Multiple parameters (`/users/:userId/posts/:postId`)
+- Query parameter handling
+- HTTP method routing (GET, POST, PUT, DELETE, PATCH)
+- Middleware implementation (CORS, auth, rate limiting)
+- File upload and download endpoints
+- Caching strategies with ETags and conditional requests
+
+### 07. Modern Web API Patterns (`07-modern-web-api-patterns.ts`)
+**Production-ready API development with advanced patterns**
+
+**Advanced patterns demonstrated:**
+- Complete RESTful API implementation with HATEOAS
+- Real-time APIs with Server-Sent Events (SSE)
+- Webhook handling with signature validation
+- Background job processing system
+- API versioning strategies
+- Comprehensive error handling
+- API documentation patterns
+- Performance optimization techniques
+
+**Key concepts:**
+```typescript
+// RESTful API with pagination and filtering
+const response = {
+  data: articles,
+  pagination: { page, limit, total, totalPages },
+  links: { self: '/articles?page=2', next: '/articles?page=3' }
+};
+
+// Real-time updates with SSE
+const response = new Response(null, {
+  headers: { 'Content-Type': 'text/event-stream' }
+});
+response.write(`data: ${JSON.stringify(event)}\n\n`);
+
+// Background job processing
+const job = {
+  id: Date.now(),
+  type: 'email',
+  data: { to: 'user@example.com', subject: 'Welcome' },
+  status: 'queued'
+};
+```
+
 ---
 
 ## 🛠️ Development Setup
@@ -196,6 +273,8 @@ bun run 02-built-in-redis-client.ts
 bun run 03-zero-config-frontend.ts
 bun run 04-security-enhancements.ts
 bun run 05-package-catalogs.ts
+bun run 06-enhanced-bun-serve-routing.ts
+bun run 07-modern-web-api-patterns.ts
 ```
 
 ### Docker Services
@@ -524,6 +603,8 @@ After completing this module, you will understand:
 3. **Zero-Config Frontend Development** - Building modern web applications without complex build setups
 4. **Security-First Development** - Implementing comprehensive security measures in your applications
 5. **Advanced Package Management** - Using package catalogs for dependency optimization in large projects
-6. **Production-Ready Patterns** - Best practices for deploying Bun 1.3 applications
+6. **Built-in Routing Excellence** - Creating powerful APIs with Bun 1.3's enhanced routing capabilities
+7. **Modern API Patterns** - Building production-ready APIs with REST, real-time, and background processing
+8. **Production-Ready Patterns** - Best practices for deploying Bun 1.3 applications
 
-These skills will enable you to build faster, more secure, and more maintainable applications using the latest Bun 1.3 features.
+These skills will enable you to build faster, more secure, and more maintainable applications using the latest Bun 1.3 features, including revolutionary routing that eliminates the need for external frameworks.
