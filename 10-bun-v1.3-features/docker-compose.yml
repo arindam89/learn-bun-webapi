@@ -1,0 +1,178 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database for SQL API examples
+  postgres:
+    image: postgres:15
+    container_name: bun-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: testdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MySQL database for SQL API examples
+  mysql:
+    image: mysql:8.0
+    container_name: bun-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqlpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis for Redis client examples
+  redis:
+    image: redis:7-alpine
+    container_name: bun-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+    command: redis-server /usr/local/etc/redis/redis.conf
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cluster for advanced examples (optional)
+  redis-cluster-node-1:
+    image: redis:7-alpine
+    container_name: bun-redis-cluster-1
+    restart: unless-stopped
+    ports:
+      - "7001:6379"
+    volumes:
+      - redis_cluster_1_data:/data
+    command: >
+      redis-server
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+    depends_on:
+      - redis
+
+  redis-cluster-node-2:
+    image: redis:7-alpine
+    container_name: bun-redis-cluster-2
+    restart: unless-stopped
+    ports:
+      - "7002:6379"
+    volumes:
+      - redis_cluster_2_data:/data
+    command: >
+      redis-server
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+    depends_on:
+      - redis-cluster-node-1
+
+  redis-cluster-node-3:
+    image: redis:7-alpine
+    container_name: bun-redis-cluster-3
+    restart: unless-stopped
+    ports:
+      - "7003:6379"
+    volumes:
+      - redis_cluster_3_data:/data
+    command: >
+      redis-server
+      --cluster-enabled yes
+      --cluster-config-file nodes.conf
+      --cluster-node-timeout 5000
+      --appendonly yes
+    depends_on:
+      - redis-cluster-node-2
+
+  # Admin tools for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: bun-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    profiles:
+      - admin
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: bun-phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: password
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    profiles:
+      - admin
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: bun-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: "local:redis:6379"
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    profiles:
+      - admin
+
+volumes:
+  postgres_data:
+    driver: local
+  mysql_data:
+    driver: local
+  redis_data:
+    driver: local
+  redis_cluster_1_data:
+    driver: local
+  redis_cluster_2_data:
+    driver: local
+  redis_cluster_3_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+
+networks:
+  default:
+    name: bun-v1.3-network
+    driver: bridge

@@ -4,7 +4,9 @@
       "Bash(find:*)",
       "Bash(git add:*)",
       "Bash(git config:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "WebFetch(domain:bun.com)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []
