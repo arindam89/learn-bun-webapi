@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskFlow - Task Management & Collaboration</title>
+    <meta name="description" content="Modern task management and collaboration platform built with Bun and React">
+    <meta name="theme-color" content="#3b82f6">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TaskFlow - Task Management & Collaboration">
+    <meta property="og:description" content="Modern task management and collaboration platform built with Bun and React">
+    <meta property="og:image" content="/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="TaskFlow - Task Management & Collaboration">
+    <meta property="twitter:description" content="Modern task management and collaboration platform built with Bun and React">
+    <meta property="twitter:image" content="/twitter-image.png">
+
+    <!-- Preconnect to API for performance -->
+    <link rel="preconnect" href="%VITE_API_URL%">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (will be processed by PostCSS) -->
+    <style>
+        /* Reset and base styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        img, picture, video, canvas, svg {
+            display: block;
+            max-width: 100%;
+        }
+
+        input, button, textarea, select {
+            font: inherit;
+        }
+
+        p, h1, h2, h3, h4, h5, h6 {
+            overflow-wrap: break-word;
+        }
+
+        #root {
+            isolation: isolate;
+            height: 100%;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Error boundaries */
+        .error-boundary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .error-boundary h1 {
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .error-boundary p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        .error-boundary button {
+            background: #3b82f6;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            border: none;
+            cursor: pointer;
+        }
+
+        .error-boundary button:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <!-- Initial loading screen -->
+        <div style="
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        ">
+            <div style="font-size: 2rem; font-weight: 700; margin-bottom: 1rem;">
+                🚀 TaskFlow
+            </div>
+            <div style="opacity: 0.9; margin-bottom: 2rem;">
+                Loading your workspace...
+            </div>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Toast notifications container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Main application script -->
+    <script type="module" src="/src/app.tsx"></script>
+
+    <!-- Error handling script -->
+    <script>
+        // Global error handler
+        window.addEventListener('error', function(event) {
+            console.error('Global error:', event.error);
+        });
+
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+        });
+
+        // Show offline indicator
+        window.addEventListener('online', function() {
+            console.log('Application is online');
+        });
+
+        window.addEventListener('offline', function() {
+            console.log('Application is offline');
+        });
+    </script>
+</body>
+</html>
